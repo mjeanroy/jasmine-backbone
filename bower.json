@@ -1,0 +1,28 @@
+{
+  "name": "jasmine-backbone",
+  "version": "0.0.0",
+  "authors": [
+    "Mickael Jeanroy <mickael.jeanroy@gmail.com>"
+  ],
+  "description": "Simple Plugin to add a lot of custom backbone matchers to jasmine framework",
+  "main": "src/jasmine-utils.js",
+  "keywords": [
+    "jasmine"
+  ],
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jquery": ">= 2.0.0",
+    "underscore": ">= 1.6.0",
+    "backbone": ">= 1.1.2"
+  }
+}
