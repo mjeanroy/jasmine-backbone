@@ -13,6 +13,12 @@ module.exports = function(config) {
 
     files: [
       {
+        pattern: 'components/jquery/dist/jquery.js',
+        watched: true,
+        served: true,
+        included: true
+      },
+      {
         pattern: 'components/underscore/underscore.js',
         watched: true,
         served: true,

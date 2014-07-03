@@ -61,8 +61,12 @@
     return spy;
   };
 
+  var isSpy = function(spy) {
+    return jasmine.isSpy(spy);
+  };
+
   var spyIf = function(obj, methodName) {
-    if (!jasmine.isSpy(obj[methodName])) {
+    if (!isSpy(obj[methodName])) {
       var spy = spyOn(obj, methodName);
       andCallThrough(spy);
     }
@@ -189,7 +193,20 @@
     },
 
     toHaveBeenFetched: function() {
-      // TODO
+      var actual = this.actual;
+
+      var spy = actual.fetch;
+      if (!isSpy(spy)) {
+        throw new Error('Fetch function must be a spy, call jasmine.Backbone.useMock() or spy function');
+      }
+
+      var type = isBackboneModel(actual) ? 'model' : 'collection';
+      var msg = 'Expect backbone ' + type + ' {{not}} to have been fetched';
+
+      return {
+        pass: this.callCount(spy) > 0,
+        message: pp(msg)
+      };
     },
 
     toHaveBeenSaved: function() {

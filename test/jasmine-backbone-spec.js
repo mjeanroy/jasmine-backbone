@@ -70,6 +70,10 @@ describe('Jasmine-Backbone', function() {
   });
 
   describe('once installed', function() {
+    beforeEach(function() {
+      jasmine.Backbone.useMock();
+    });
+
     describe('with views', function() {
       beforeEach(function() {
         this.View = Backbone.View.extend({
@@ -147,6 +151,32 @@ describe('Jasmine-Backbone', function() {
         expect(this.model1).not.toHaveModelURL('/bar');
         expect(this.model2).not.toHaveModelURL('/bar');
       });
-   });
+
+      it('should check if model has been fetched', function() {
+        expect(this.model1).not.toHaveBeenFetched();
+
+        this.model1.fetch();
+
+        expect(this.model1).toHaveBeenFetched();
+      });
+    });
+
+    describe('with collections', function() {
+      beforeEach(function() {
+        this.Collection1 = Backbone.Collection.extend({
+          url: '/foo'
+        });
+
+        this.collection1 = new this.Collection1();
+      });
+
+      it('should check if a collection has been fetched', function() {
+        expect(this.collection1).not.toHaveBeenFetched();
+
+        this.collection1.fetch();
+
+        expect(this.collection1).toHaveBeenFetched();
+      });
+    });
   });
 });
