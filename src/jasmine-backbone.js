@@ -164,9 +164,10 @@
     },
 
     toHaveCollectionURL: function(url) {
+      var actualURL = _.result(this.actual, 'url');
       return {
         pass: _.result(this.actual, 'url') === url,
-        message: pp('Expect collection {{not}} to have url {{%0}}', url)
+        message: pp('Expect collection {{not}} to have url {{%0}} but was {{%1}}', url, actualURL)
       };
     },
 

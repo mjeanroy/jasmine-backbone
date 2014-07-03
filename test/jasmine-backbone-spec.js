@@ -193,6 +193,11 @@ describe('Jasmine-Backbone', function() {
 
         expect(this.collection1).toHaveBeenFetched();
       });
+
+      it('should check if a collection has given URL', function() {
+        expect(this.collection1).toHaveCollectionURL('/foo');
+        expect(this.collection1).not.toHaveCollectionURL('/bar');
+      });
     });
   });
 });
