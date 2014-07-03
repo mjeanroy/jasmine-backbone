@@ -224,7 +224,17 @@
     },
 
     toHaveBeenDestroyed: function() {
-      // TODO
+      var actual = this.actual;
+
+      var spy = actual.destroy;
+      if (!isSpy(spy)) {
+        throw new Error('Destroy function must be a spy, call jasmine.Backbone.useMock() or spy function');
+      }
+
+      return {
+        pass: this.callCount(spy) > 0,
+        message: pp('Expect backbone model {{not}} to have been destroyed')
+      };
     },
 
     toListenTo: function() {

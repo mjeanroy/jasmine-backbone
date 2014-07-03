@@ -167,6 +167,14 @@ describe('Jasmine-Backbone', function() {
 
         expect(this.model1).toHaveBeenSaved();
       });
+
+      it('should check if model has been destroyed', function() {
+        expect(this.model1).not.toHaveBeenDestroyed();
+
+        this.model1.destroy();
+
+        expect(this.model1).toHaveBeenDestroyed();
+      });
     });
 
     describe('with collections', function() {
