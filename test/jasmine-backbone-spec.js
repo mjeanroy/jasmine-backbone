@@ -139,6 +139,14 @@ describe('Jasmine-Backbone', function() {
         expect(this.model1).not.toHaveModelURLRoot('/bar');
         expect(this.model2).not.toHaveModelURLRoot('/bar');
       });
+
+      it('should check model URL', function() {
+        expect(this.model1).toHaveModelURL('/foo');
+        expect(this.model2).toHaveModelURL('/foo/1');
+
+        expect(this.model1).not.toHaveModelURL('/bar');
+        expect(this.model2).not.toHaveModelURL('/bar');
+      });
    });
   });
 });

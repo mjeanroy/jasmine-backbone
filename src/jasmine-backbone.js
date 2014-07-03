@@ -143,16 +143,19 @@
     toHaveModelAttribute: function(name, value) {
       var actual = this.actual;
       var checkValue = arguments.length === 2;
+      var suffix = checkValue ? ' with value {{%2}}' : '';
+      var message = 'Expect backbone model {{%0}} {{not}} to have attribute {{%1}}' + suffix;
       return {
         pass: isBackboneModel(actual) && actual.has(name) && (!checkValue || this.equals(actual.get(name), value)),
-        message: pp('Expect {{%0}} {{not}} to have attribute {{%1}}' + checkValue ? ' equal to {{%2}}' : '', actual, name, value)
+        message: pp(message, actual.toJSON(), name, value)
       };
     },
 
     toHaveModelURL: function(url) {
+      var actualURL = _.result(this.actual, 'url');
       return {
-        pass: _.result(this.actual, 'url') === url,
-        message: pp('Expect model {{not}} to have url {{%0}}', url)
+        pass: actualURL === url,
+        message: pp('Expect model {{%0}} {{not}} to have url {{%1}} but was {{%2}}', this.actual.toJSON(), url, actualURL)
       };
     },
 
@@ -164,9 +167,10 @@
     },
 
     toHaveModelURLRoot: function(urlRoot) {
+      var actualRootURL = _.result(this.actual, 'urlRoot');
       return {
-        pass: _.result(this.actual, 'urlRoot') === urlRoot,
-        message: pp('Expect model {{not}} to have root url {{%0}}', urlRoot)
+        pass: actualRootURL === urlRoot,
+        message: pp('Expect backbone model {{%0}} {{not}} to have root url {{%1}} but was {{%2}}', this.actual.toJSON(), urlRoot, actualRootURL)
       };
     },
 
@@ -276,7 +280,10 @@
 
             // Not yet implemented
             if (!result) {
-              return false;
+              result = {
+                pass: false,
+                message: 'Not Yet Implemented'
+              };
             }
 
             return {
@@ -294,7 +301,10 @@
 
              // Not yet implemented
             if (!result) {
-              return true;
+              result = {
+                pass: true,
+                message: 'Not Yet Implement'
+              };
             }
 
             return {
