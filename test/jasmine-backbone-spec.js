@@ -159,6 +159,14 @@ describe('Jasmine-Backbone', function() {
 
         expect(this.model1).toHaveBeenFetched();
       });
+
+      it('should check if model has been saved', function() {
+        expect(this.model1).not.toHaveBeenSaved();
+
+        this.model1.save();
+
+        expect(this.model1).toHaveBeenSaved();
+      });
     });
 
     describe('with collections', function() {
