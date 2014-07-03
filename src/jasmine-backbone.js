@@ -144,6 +144,13 @@
       };
     },
 
+    toBeNewModel: function() {
+      return {
+        pass: this.actual.isNew(),
+        message: pp('Expect {{%0}} {{not}} to be a new backbone model', this.actual.toJSON())
+      };
+    },
+
     toHaveModelAttribute: function(name, value) {
       var actual = this.actual;
       var checkValue = arguments.length === 2;

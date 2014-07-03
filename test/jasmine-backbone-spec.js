@@ -116,6 +116,11 @@ describe('Jasmine-Backbone', function() {
         });
       });
 
+      it('should check if model is new', function() {
+        expect(this.model1).toBeNewModel();
+        expect(this.model2).not.toBeNewModel();
+      });
+
       it('should check if a model has an attribute', function() {
         expect(this.model1).toHaveModelAttribute('foo');
         expect(this.model1).toHaveModelAttribute('bar');
