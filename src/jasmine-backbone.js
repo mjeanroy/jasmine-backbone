@@ -263,6 +263,13 @@
       };
     },
 
+    toHaveBeenRemoved: function() {
+      return {
+        pass: this.callCount(this.actual.remove) > 0,
+        message: pp('Expect backbone view {{not}} to have been removed')
+      };
+    },
+
     toHaveBeenFetched: function() {
       var actual = this.actual;
 

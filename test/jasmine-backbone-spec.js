@@ -181,6 +181,14 @@ describe('Jasmine-Backbone', function() {
         expect(this.view1).not.toHaveViewProperties('div', 'bar');
         expect(this.view1).not.toHaveViewProperties('ul', 'bar');
       });
+
+      it('should check if view has been removed', function() {
+        expect(this.view1).not.toHaveBeenRemoved();
+
+        this.view1.remove();
+
+        expect(this.view1).toHaveBeenRemoved();
+      });
     });
 
     describe('with models', function() {
