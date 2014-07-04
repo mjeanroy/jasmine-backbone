@@ -38,10 +38,6 @@
   var IS_JASMINE_1 = JASMINE_VERSION === 1;
   var IS_JASMINE_2 = JASMINE_VERSION === 2;
 
-  var MODEL_METHODS = ['fetch', 'save', 'destroy', 'trigger'];
-  var COLLECTION_METHODS = ['fetch', 'trigger'];
-  var VIEW_METHODS = ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove'];
-
   var pp = function(message) {
     var placeholders = [].slice.call(arguments, 1);
     for (var i = 0, size = placeholders.length; i < size; ++i) {
@@ -78,8 +74,31 @@
       methods = [methods];
     }
 
-    _.each(methods, function(methodName) {
-      spyIf(obj, methodName);
+    if (!_.isArray(obj)) {
+      obj = [obj];
+    }
+
+    _.each(obj, function(o) {
+      _.each(methods, function(methodName) {
+        spyIf(o, methodName);
+      });
+    });
+  };
+
+  var resetAll = function(obj, methods) {
+    if (!methods || _.isEmpty(methods)) {
+      methods = _.methods(obj);
+    }
+
+    _.each(methods, function(method) {
+      if (jasmine.isSpy(obj[method])) {
+        var spy = obj[method];
+        if (IS_JASMINE_1) {
+          spy.reset();
+        } else {
+          spy.calls.reset();
+        }
+      }
     });
   };
 
@@ -100,25 +119,43 @@
   };
 
   jasmine.Backbone = {
+    viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove'],
+    modelMethods: ['fetch', 'save', 'destroy', 'trigger'],
+    collectionMethods: ['fetch', 'trigger'],
+
     useMock: function() {
-      spyEach(Backbone.View.prototype, VIEW_METHODS);
-      spyEach(Backbone.Model.prototype, MODEL_METHODS);
-      spyEach(Backbone.Collection.prototype, COLLECTION_METHODS);
+      spyEach(Backbone.View.prototype, jasmine.Backbone.viewMethods);
+      spyEach(Backbone.Model.prototype, jasmine.Backbone.modelMethods);
+      spyEach(Backbone.Collection.prototype, jasmine.Backbone.collectionMethods);
     },
 
     mockModel: function(model, methods) {
-      methods = MODEL_METHODS.concat(methods || []);
+      methods = jasmine.Backbone.modelMethods.concat(methods || []);
       spyEach(model, methods);
     },
 
     mockCollection: function(collection, methods) {
-      methods = COLLECTION_METHODS.concat(methods || []);
+      methods = jasmine.Backbone.collectionMethods.concat(methods || []);
       spyEach(collection, methods);
     },
 
     mockView: function(view, methods) {
-      methods = VIEW_METHODS.concat(methods || []);
+      methods = jasmine.Backbone.viewMethods.concat(methods || []);
       spyEach(view, methods);
+    },
+
+    resetAll: function() {
+      var objs = [].slice.call(arguments);
+
+      if (_.isEmpty(objs)) {
+        objs = [Backbone.View.prototype, Backbone.Model.prototype, Backbone.Collection.prototype];
+      }
+
+      _.each(objs, resetAll);
+    },
+
+    reset: function(obj, methods) {
+      resetAll(obj, methods);
     }
   };
 

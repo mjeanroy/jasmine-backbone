@@ -67,6 +67,68 @@ describe('Jasmine-Backbone', function() {
       expect(CollectionProto.fetch).toBeASpy();
       expect(CollectionProto.trigger).toBeASpy();
     });
+
+    it('should reset backbone object methods', function() {
+      jasmine.Backbone.useMock();
+
+      var methods = ['initialize', 'render', 'listenTo', 'listenToOnce', 'remove'];
+
+      var view = new Backbone.View();
+      _.each(methods, function(method) {
+        spyOn(view[method].calls, 'reset');
+      });
+
+      jasmine.Backbone.reset(view, methods);
+
+      _.each(methods, function(method) {
+        expect(view[method].calls.reset).toHaveBeenCalled();
+      });
+    });
+
+    it('should reset backbone view methods', function() {
+      jasmine.Backbone.useMock();
+
+      var methods = ['initialize', 'render', 'listenTo', 'listenToOnce', 'remove'];
+      _.each(methods, function(method) {
+        spyOn(Backbone.View.prototype[method].calls, 'reset');
+      });
+
+      jasmine.Backbone.resetAll();
+
+      _.each(methods, function(method) {
+        expect(Backbone.View.prototype[method].calls.reset).toHaveBeenCalled();
+      });
+    });
+
+    it('should reset backbone models methods', function() {
+      jasmine.Backbone.useMock();
+
+      var methods = ['fetch', 'save', 'destroy', 'trigger'];
+      _.each(methods, function(method) {
+        spyOn(Backbone.Model.prototype[method].calls, 'reset');
+      });
+
+      jasmine.Backbone.resetAll();
+
+      _.each(methods, function(method) {
+        expect(Backbone.Model.prototype[method].calls.reset).toHaveBeenCalled();
+      });
+    });
+
+    it('should reset backbone collections methods', function() {
+      jasmine.Backbone.useMock();
+
+      var methods = ['fetch', 'trigger']
+      _.each(methods, function(method) {
+        spyOn(Backbone.Collection.prototype[method].calls, 'reset');
+      });
+
+      jasmine.Backbone.resetAll();
+
+      _.each(methods, function(method) {
+        expect(Backbone.Collection.prototype[method].calls.reset).toHaveBeenCalled();
+      });
+    });
   });
 
   describe('once installed', function() {
