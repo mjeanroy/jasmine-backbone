@@ -121,10 +121,16 @@ describe('Jasmine-Backbone', function() {
             foo : 'bar'
           },
 
-          urlRoot: '/foo'
+          urlRoot: '/foo',
+
+          validate: function() {
+            if (this.get('foo') === 'foo') {
+              return 'foo must not be foo';
+            }
+          }
         });
 
-        this.Model1 = Backbone.Model.extend({
+        this.Model2 = Backbone.Model.extend({
           defaults: {
             foo : 'bar'
           },
@@ -141,7 +147,7 @@ describe('Jasmine-Backbone', function() {
           }
         });
 
-        this.model2 = new this.Model1({
+        this.model2 = new this.Model2({
         	id: 1,
           bar: 'foo'
         });
@@ -204,6 +210,14 @@ describe('Jasmine-Backbone', function() {
         expect(this.model1).not.toHaveModelAttribute('sub', {
           id: 2
         });
+      });
+
+      it('should check if a model is valid', function() {
+        expect(this.model1).toBeValidModel();
+
+        this.model1.set('foo', 'foo');
+
+        expect(this.model1).not.toBeValidModel();
       });
 
       it('should check model root URL', function() {

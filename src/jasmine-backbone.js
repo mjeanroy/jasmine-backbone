@@ -170,6 +170,13 @@
       };
     },
 
+    toBeValidModel: function() {
+      return {
+        pass: this.actual.isValid(),
+        message: pp('Expect {{%0}} to be valid', this.actual.toJSON())
+      };
+    },
+
     toHaveModelURL: function(url) {
       var actualURL = _.result(this.actual, 'url');
       return {
