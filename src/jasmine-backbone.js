@@ -195,9 +195,10 @@
     },
 
     toHaveViewTagName: function(tagName) {
+      var actualTagName = _.result(this.actual, 'tagName');
       return {
-        pass: _.result(this.actual, 'tagName') === tagName,
-        message: pp('Expect view {{not}} to have tag name {{%0}}', tagName)
+        pass: actualTagName === tagName,
+        message: pp('Expect view {{not}} to have tag name {{%0}} but was {{%1}}', tagName, actualTagName)
       };
     },
 

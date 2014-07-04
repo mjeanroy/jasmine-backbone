@@ -77,10 +77,14 @@ describe('Jasmine-Backbone', function() {
     describe('with views', function() {
       beforeEach(function() {
         this.View1 = Backbone.View.extend({
+          tagName: 'div',
           className: 'foo'
         });
 
         this.View2 = Backbone.View.extend({
+          tagName: function() {
+            return 'div';
+          },
           className: function() {
             return 'foo';
           }
@@ -96,6 +100,17 @@ describe('Jasmine-Backbone', function() {
 
         expect(this.view1).not.toHaveViewClassName('bar');
         expect(this.view2).not.toHaveViewClassName('bar');
+      });
+
+      it('should check if view has tag name', function() {
+        expect(this.view1).toHaveViewTagName('div');
+        expect(this.view2).toHaveViewTagName('div');
+
+        expect(this.view1).not.toHaveViewTagName('ul');
+        expect(this.view2).not.toHaveViewTagName('ul');
+
+        expect(new Backbone.View()).toHaveViewTagName('div');
+        expect(new Backbone.View()).not.toHaveViewTagName('bar');
       });
     });
 
