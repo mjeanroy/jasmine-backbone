@@ -187,9 +187,10 @@
     },
 
     toHaveViewClassName: function(className) {
+      var actualClassName = _.result(this.actual, 'className');
       return {
-        pass: _.result(this.actual, 'className') === className,
-        message: pp('Expect view {{not}} to have class name {{%0}}', className)
+        pass: actualClassName === className,
+        message: pp('Expect backbone view {{not}} to have class name {{%0}} but was {{%1}}', className, actualClassName)
       };
     },
 

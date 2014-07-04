@@ -76,10 +76,26 @@ describe('Jasmine-Backbone', function() {
 
     describe('with views', function() {
       beforeEach(function() {
-        this.View = Backbone.View.extend({
+        this.View1 = Backbone.View.extend({
+          className: 'foo'
         });
 
-        this.view = new this.View();
+        this.View2 = Backbone.View.extend({
+          className: function() {
+            return 'foo';
+          }
+        });
+
+        this.view1 = new this.View1();
+        this.view2 = new this.View2();
+      });
+
+      it('should check if view has class name', function() {
+        expect(this.view1).toHaveViewClassName('foo');
+        expect(this.view2).toHaveViewClassName('foo');
+
+        expect(this.view1).not.toHaveViewClassName('bar');
+        expect(this.view2).not.toHaveViewClassName('bar');
       });
     });
 
