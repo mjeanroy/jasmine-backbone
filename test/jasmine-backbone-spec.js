@@ -152,6 +152,40 @@ describe('Jasmine-Backbone', function() {
         expect(this.model2).not.toBeNewModel();
       });
 
+      it('should check model id with default id attribute', function() {
+        expect(this.model2).toHaveModelId(1);
+        expect(this.model2).not.toHaveModelId(2);
+      });
+
+      it('should check model id with custom id attribute', function() {
+        var Model = Backbone.Model.extend({
+          idAttribute: '_id'
+        });
+
+        var model = new Model({
+          _id: 10
+        });
+
+        expect(model).toHaveModelId(10);
+        expect(model).not.toHaveModelId(20);
+      });
+
+      it('should check model id with id object', function() {
+        var model = new this.Model1({
+          id: {
+            foo: 'bar'
+          }
+        });
+
+        expect(model).toHaveModelId({
+          foo: 'bar'
+        });
+
+        expect(model).not.toHaveModelId({
+          foo: 'foo'
+        });
+      });
+
       it('should check if a model has an attribute', function() {
         expect(this.model1).toHaveModelAttribute('foo');
         expect(this.model1).toHaveModelAttribute('bar');

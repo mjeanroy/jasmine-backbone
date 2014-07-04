@@ -151,6 +151,14 @@
       };
     },
 
+    toHaveModelId: function(id) {
+      var actualId = this.actual.id;
+      return {
+        pass: this.equals(id, actualId),
+        message: pp('Expect backbone model {{%0}} {{not}} to have id {{%1}} but was {{%2}}', this.actual.toJSON(), id, actualId)
+      };
+    },
+
     toHaveModelAttribute: function(name, value) {
       var actual = this.actual;
       var checkValue = arguments.length === 2;
