@@ -112,6 +112,13 @@ describe('Jasmine-Backbone', function() {
         expect(new Backbone.View()).toHaveViewTagName('div');
         expect(new Backbone.View()).not.toHaveViewTagName('bar');
       });
+
+      it('should check if view has given properties', function() {
+        expect(this.view1).toHaveViewProperties('div', 'foo');
+        expect(this.view1).not.toHaveViewProperties('ul', 'foo');
+        expect(this.view1).not.toHaveViewProperties('div', 'bar');
+        expect(this.view1).not.toHaveViewProperties('ul', 'bar');
+      });
     });
 
     describe('with models', function() {

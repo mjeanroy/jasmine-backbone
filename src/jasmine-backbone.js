@@ -217,6 +217,15 @@
       };
     },
 
+    toHaveViewProperties: function(tagName, className) {
+      var actualClassName = _.result(this.actual, 'className');
+      var actualTagName = _.result(this.actual, 'tagName');
+      return {
+        pass: actualTagName === tagName && actualClassName === className,
+        message: pp('Expect view {{not}} to have tag name {{%0}} and class name {{%1}} but was {{%2}} and {{%3}}', tagName, className, actualTagName, actualClassName)
+      };
+    },
+
     toHaveBeenFetched: function() {
       var actual = this.actual;
 
@@ -283,14 +292,6 @@
         pass: actualSize === 0,
         message: pp('Expect backbone collection {{not}} to be empty but size was {{%0}}', actualSize)
       };
-    },
-
-    toListenTo: function() {
-      // TODO
-    },
-
-    toListenToOnce: function() {
-      // TODO
     }
   };
 
