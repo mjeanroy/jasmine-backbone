@@ -262,6 +262,14 @@
       };
     },
 
+    toHaveCollectionSize: function(size) {
+      var actualSize = this.actual.length;
+      return {
+        pass: actualSize === size,
+        message: pp('Expect backbone collection {{not}} to have size {{%0}} but was {{%1}}', size, actualSize)
+      };
+    },
+
     toListenTo: function() {
       // TODO
     },

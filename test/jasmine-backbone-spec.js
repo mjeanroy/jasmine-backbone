@@ -285,6 +285,22 @@ describe('Jasmine-Backbone', function() {
         expect(this.collection1).toContainModel(model2);
         expect(this.collection1).not.toContainModel(model3);
       });
+
+      it('should check backbone collection size', function() {
+        var model1 = new Backbone.Model({
+          id: 1
+        });
+
+        var model2 = new Backbone.Model();
+
+        var model3 = new Backbone.Model();
+
+        this.collection1.push(model1);
+        this.collection1.push(model2);
+
+        expect(this.collection1).toHaveCollectionSize(2);
+        expect(this.collection1).not.toHaveCollectionSize(1);
+      });
     });
   });
 });
