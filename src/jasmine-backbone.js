@@ -255,6 +255,13 @@
       };
     },
 
+    toContainModel: function(model) {
+      return {
+        pass: !!this.actual.get(model),
+        message: pp('Expect backbone collection {{not}} to contain model {{%0}}', model.toJSON())
+      };
+    },
+
     toListenTo: function() {
       // TODO
     },

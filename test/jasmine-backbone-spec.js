@@ -268,6 +268,23 @@ describe('Jasmine-Backbone', function() {
         expect(this.collection1).toHaveCollectionURL('/foo');
         expect(this.collection1).not.toHaveCollectionURL('/bar');
       });
+
+      it('should check if backbone collection contains given model', function() {
+        var model1 = new Backbone.Model({
+          id: 1
+        });
+
+        var model2 = new Backbone.Model();
+
+        var model3 = new Backbone.Model();
+
+        this.collection1.push(model1);
+        this.collection1.push(model2);
+
+        expect(this.collection1).toContainModel(model1);
+        expect(this.collection1).toContainModel(model2);
+        expect(this.collection1).not.toContainModel(model3);
+      });
     });
   });
 });
