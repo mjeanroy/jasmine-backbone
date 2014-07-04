@@ -301,6 +301,18 @@ describe('Jasmine-Backbone', function() {
         expect(this.collection1).toHaveCollectionSize(2);
         expect(this.collection1).not.toHaveCollectionSize(1);
       });
+
+      it('should check if backbone collection is empty', function() {
+        expect(this.collection1).toBeEmptyCollection();
+
+        var model1 = new Backbone.Model({
+          id: 1
+        });
+
+        this.collection1.push(model1);
+
+        expect(this.collection1).not.toBeEmptyCollection();
+      });
     });
   });
 });

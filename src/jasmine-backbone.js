@@ -270,6 +270,14 @@
       };
     },
 
+    toBeEmptyCollection: function() {
+      var actualSize = this.actual.length;
+      return {
+        pass: actualSize === 0,
+        message: pp('Expect backbone collection {{not}} to be empty but size was {{%0}}', actualSize)
+      };
+    },
+
     toListenTo: function() {
       // TODO
     },
