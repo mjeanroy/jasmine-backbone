@@ -289,6 +289,21 @@ describe('Jasmine-Backbone', function() {
         });
       });
 
+      it('should check if a model has a set of attributes', function() {
+        expect(this.model1).toHaveModelAttribute({
+          foo: 'bar',
+          bar: 'foo',
+          sub: {
+            id: 1
+          }
+        });
+
+        expect(this.model1).not.toHaveModelAttribute({
+          foo: 'foo',
+          bar: 'bar'
+        });
+      });
+
       it('should check if a model is valid', function() {
         expect(this.model1).toBeValidModel();
 

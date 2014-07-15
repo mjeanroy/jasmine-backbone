@@ -118,6 +118,14 @@
     return isInstanceOf(obj, Backbone.View);
   };
 
+  var hasAttribute = function(model, name) {
+    return model.has(name);
+  };
+
+  var isAttributeEqualTo = function(model, name, value, equalsFunction) {
+    return equalsFunction(model.get(name), value);
+  };
+
   jasmine.Backbone = {
     viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove'],
     modelMethods: ['fetch', 'save', 'destroy', 'trigger'],
@@ -197,13 +205,35 @@
     },
 
     toHaveModelAttribute: function(name, value) {
-      var actual = this.actual;
-      var checkValue = arguments.length === 2;
-      var suffix = checkValue ? ' with value {{%2}}' : '';
-      var message = 'Expect backbone model {{%0}} {{not}} to have attribute {{%1}}' + suffix;
+      var model = this.actual;
+      var pass = isBackboneModel(model);
+      var obj = name;
+
+      if (pass) {
+        if (arguments.length === 1 && _.isString(name)) {
+          // Check only that model has given attribute
+          pass = pass && hasAttribute(model, obj);
+        }
+        else {
+          // Check attribute and value
+          // If first parameter is not a string, then check each entry of object
+
+          if (_.isString(obj)) {
+            obj = {};
+            obj[name] = value;
+          }
+
+          var equalsFunction = this.equals;
+
+          pass = pass && _.every(obj, function(attrValue, attrName) {
+            return hasAttribute(model, attrName) && isAttributeEqualTo(model, attrName, attrValue, equalsFunction);
+          });
+        }
+      }
+
       return {
-        pass: isBackboneModel(actual) && actual.has(name) && (!checkValue || this.equals(actual.get(name), value)),
-        message: pp(message, actual.toJSON(), name, value)
+        pass: pass,
+        message: pp('Expect backbone model {{%0}} {{not}} to have attributes {{%1}}', model.toJSON(), obj)
       };
     },
 
