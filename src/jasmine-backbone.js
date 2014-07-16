@@ -263,9 +263,11 @@
       },
 
       toBeNewModel: function() {
+        var isModel = isBackboneModel(this.actual);
+        var json = isModel ? this.actual.toJSON() : this.actual;
         return {
-          pass: this.actual.isNew(),
-          message: pp('Expect {{%0}} {{not}} to be a new backbone model', this.actual.toJSON())
+          pass: isModel && this.actual.isNew(),
+          message: pp('Expect {{%0}} {{not}} to be a new backbone model', json)
         };
       },
 

@@ -169,6 +169,12 @@
             this.view2 = new this.View2();
           });
 
+          it('should check if object is a backbone view', function() {
+            expect(new Backbone.View()).toBeABackboneView();
+            expect(new Backbone.Collection()).not.toBeABackboneView();
+            expect(new Backbone.Model()).not.toBeABackboneView();
+          });
+
           it('should check if view has class name', function() {
             expect(this.view1).toHaveViewClassName('foo');
             expect(this.view2).toHaveViewClassName('foo');
@@ -269,7 +275,7 @@
             expect(this.view1).not.toListenToOnce(model, 'bar');
           });
 
-           it('should check if view listen once to specified event with specified callback', function() {
+          it('should check if view listen once to specified event with specified callback', function() {
             var model = new Backbone.Model({
               id: 1
             });
@@ -323,6 +329,13 @@
               id: 1,
               bar: 'foo'
             });
+          });
+
+          it('should check if an object is a backbone model', function() {
+            expect(this.model1).toBeABackboneModel();
+            expect({}).not.toBeABackboneModel();
+            expect(new Backbone.Collection()).not.toBeABackboneModel();
+            expect(new Backbone.View()).not.toBeABackboneModel();
           });
 
           it('should check if model is new', function() {
@@ -607,6 +620,13 @@
             });
 
             this.collection1 = new this.Collection1();
+          });
+
+          it('should check if an object is a backbone collection', function() {
+            expect(this.collection1).toBeABackboneCollection();
+            expect({}).not.toBeABackboneCollection();
+            expect(new Backbone.Model()).not.toBeABackboneCollection();
+            expect(new Backbone.View()).not.toBeABackboneCollection();
           });
 
           it('should check if a collection has been fetched', function() {
