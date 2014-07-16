@@ -222,6 +222,34 @@
         };
       },
 
+      toHaveTriggeredWith: function(eventName) {
+        var obj = this.actual;
+        var equalsFunction = this.equals;
+        var triggerArgs = [].slice.call(arguments, 1);
+
+        var argsEqual = function(a1, a2) {
+          if (a1.length !== a2.length) {
+            return false;
+          }
+
+          return _.every(a1, function(current, i) {
+            var current2 = _.isObject(a2[i]) ? jasmine.objectContaining(a2[i]) : a2[i];
+            return equalsFunction(current, current2);
+          });
+        };
+
+        var call = this.findCall(obj.trigger, function(args) {
+          var evtName = args[0];
+          var evtArgs = [].slice.call(args, 1);
+          return evtName === eventName && argsEqual(triggerArgs, evtArgs);
+        });
+
+        return {
+          pass: !!call,
+          message: pp('Expect backbone object {{not}} to have triggered event {{%0}} with {{%1}}', eventName, triggerArgs)
+        };
+      },
+
       toHaveModelId: function(id) {
         var actualId = this.actual.id;
         return {

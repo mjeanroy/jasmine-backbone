@@ -210,6 +210,22 @@
 
             expect(this.view1).toHaveTriggered('foo');
           });
+
+          it('should check if collection triggered specified event with arguments', function() {
+            var arg1 = {
+              id: 1
+            };
+
+            var arg2 = 'bar';
+
+            expect(this.view1).not.toHaveTriggeredWith('foo', arg1, arg2);
+
+            this.view1.trigger('foo', arg1, arg2);
+
+            expect(this.view1).toHaveTriggeredWith('foo', arg1, arg2);
+            expect(this.view1).toHaveTriggeredWith('foo', jasmine.objectContaining(arg1), arg2);
+            expect(this.view1).not.toHaveTriggeredWith('foo', arg1, 'foobar');
+          });
         });
 
         describe('with models', function() {
@@ -380,6 +396,22 @@
 
             expect(this.model1).toHaveTriggered('foo');
           });
+
+          it('should check if collection triggered specified event with arguments', function() {
+            var arg1 = {
+              id: 1
+            };
+
+            var arg2 = 'bar';
+
+            expect(this.model1).not.toHaveTriggeredWith('foo', arg1, arg2);
+
+            this.model1.trigger('foo', arg1, arg2);
+
+            expect(this.model1).toHaveTriggeredWith('foo', arg1, arg2);
+            expect(this.model1).toHaveTriggeredWith('foo', jasmine.objectContaining(arg1), arg2);
+            expect(this.model1).not.toHaveTriggeredWith('foo', arg1, 'foobar');
+          });
         });
 
         describe('with collections', function() {
@@ -455,6 +487,22 @@
             this.collection1.trigger('foo');
 
             expect(this.collection1).toHaveTriggered('foo');
+          });
+
+          it('should check if collection triggered specified event with arguments', function() {
+            var arg1 = {
+              id: 1
+            };
+
+            var arg2 = 'bar';
+
+            expect(this.collection1).not.toHaveTriggeredWith('foo', arg1, arg2);
+
+            this.collection1.trigger('foo', arg1, arg2);
+
+            expect(this.collection1).toHaveTriggeredWith('foo', arg1, arg2);
+            expect(this.collection1).toHaveTriggeredWith('foo', jasmine.objectContaining(arg1), arg2);
+            expect(this.collection1).not.toHaveTriggeredWith('foo', arg1, 'foobar');
           });
         });
       });
