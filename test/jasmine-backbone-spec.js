@@ -234,10 +234,26 @@
 
             expect(this.view1).not.toListenTo(model, 'foo');
 
-            this.view1.listenTo(model, 'foo', this.view1.render);
+            this.view1.listenTo(model, 'foo', jasmine.any(Function));
 
             expect(this.view1).toListenTo(model, 'foo');
             expect(this.view1).not.toListenTo(model, 'bar');
+          });
+
+          it('should check if view listen to specified event with specified callback', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            var callback = function() {};
+            var callback2 = function() {};
+
+            expect(this.view1).not.toListenTo(model, 'foo');
+
+            this.view1.listenTo(model, 'foo', callback);
+
+            expect(this.view1).toListenTo(model, 'foo', callback);
+            expect(this.view1).not.toListenTo(model, 'foo', callback2);
           });
 
           it('should check if view listen once to specified event', function() {
@@ -247,10 +263,26 @@
 
             expect(this.view1).not.toListenToOnce(model, 'foo');
 
-            this.view1.listenToOnce(model, 'foo', this.view1.render);
+            this.view1.listenToOnce(model, 'foo', jasmine.any(Function));
 
             expect(this.view1).toListenToOnce(model, 'foo');
             expect(this.view1).not.toListenToOnce(model, 'bar');
+          });
+
+           it('should check if view listen once to specified event with specified callback', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            var callback = function() {};
+            var callback2 = function() {};
+
+            expect(this.view1).not.toListenToOnce(model, 'foo');
+
+            this.view1.listenToOnce(model, 'foo', callback);
+
+            expect(this.view1).toListenToOnce(model, 'foo', callback);
+            expect(this.view1).not.toListenToOnce(model, 'foo', callback2);
           });
         });
 
@@ -446,10 +478,26 @@
 
             expect(this.model1).not.toListenTo(model, 'foo');
 
-            this.model1.listenTo(model, 'foo', this.model1.render);
+            this.model1.listenTo(model, 'foo', jasmine.any(Function));
 
             expect(this.model1).toListenTo(model, 'foo');
             expect(this.model1).not.toListenTo(model, 'bar');
+          });
+
+          it('should check if model listen to specified event with specified callback', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            var callback = function() {};
+            var callback2 = function() {};
+
+            expect(this.model1).not.toListenTo(model, 'foo');
+
+            this.model1.listenTo(model, 'foo', callback);
+
+            expect(this.model1).toListenTo(model, 'foo', callback);
+            expect(this.model1).not.toListenTo(model, 'bar', callback2);
           });
 
           it('should check if model listen once to specified event', function() {
@@ -459,10 +507,26 @@
 
             expect(this.model1).not.toListenToOnce(model, 'foo');
 
-            this.model1.listenToOnce(model, 'foo', this.model1.render);
+            this.model1.listenToOnce(model, 'foo', jasmine.any(Function));
 
             expect(this.model1).toListenToOnce(model, 'foo');
             expect(this.model1).not.toListenToOnce(model, 'bar');
+          });
+
+          it('should check if model listen once to specified event with specified callback', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            var callback = function() {};
+            var callback2 = function() {};
+
+            expect(this.model1).not.toListenToOnce(model, 'foo');
+
+            this.model1.listenToOnce(model, 'foo', callback);
+
+            expect(this.model1).toListenToOnce(model, 'foo', callback);
+            expect(this.model1).not.toListenToOnce(model, 'foo', callback2);
           });
         });
 
@@ -564,10 +628,26 @@
 
             expect(this.collection1).not.toListenTo(model, 'foo');
 
-            this.collection1.listenTo(model, 'foo', this.collection1.render);
+            this.collection1.listenTo(model, 'foo', jasmine.any(Function));
 
             expect(this.collection1).toListenTo(model, 'foo');
             expect(this.collection1).not.toListenTo(model, 'bar');
+          });
+
+          it('should check if collection listen to specified event with specified callback', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            var callback = function() {};
+            var callback2 = function() {};
+
+            expect(this.collection1).not.toListenTo(model, 'foo');
+
+            this.collection1.listenTo(model, 'foo', callback);
+
+            expect(this.collection1).toListenTo(model, 'foo', callback);
+            expect(this.collection1).not.toListenTo(model, 'foo', callback2);
           });
 
           it('should check if collection listen once to specified event', function() {
@@ -577,10 +657,26 @@
 
             expect(this.collection1).not.toListenToOnce(model, 'foo');
 
-            this.collection1.listenToOnce(model, 'foo', this.collection1.render);
+            this.collection1.listenToOnce(model, 'foo', jasmine.any(Function));
 
             expect(this.collection1).toListenToOnce(model, 'foo');
             expect(this.collection1).not.toListenToOnce(model, 'bar');
+          });
+
+          it('should check if collection listen once to specified event with specified callback', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            var callback = function() {};
+            var callback2 = function() {};
+
+            expect(this.collection1).not.toListenToOnce(model, 'foo');
+
+            this.collection1.listenToOnce(model, 'foo', callback);
+
+            expect(this.collection1).toListenToOnce(model, 'foo', callback);
+            expect(this.collection1).not.toListenToOnce(model, 'foo', callback2);
           });
         });
       });

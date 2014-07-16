@@ -153,6 +153,23 @@
       return equalsFunction(model.get(name), value);
     };
 
+    var checkListenCall = function(spy, obj, eventName, callback) {
+      var equalsFunction = this.equals;
+      var call = this.findCall(spy, function(args) {
+        return equalsFunction(args[0], obj) && equalsFunction(args[1], eventName) && equalsFunction(args[2], callback);
+      });
+
+      return !!call;
+    };
+
+    var checkListenToCall = function(obj, eventName, callback) {
+      return checkListenCall.call(this, this.actual.listenTo, obj, eventName, callback);
+    };
+
+    var checkListenToOnceCall = function(obj, eventName, callback) {
+      return checkListenCall.call(this, this.actual.listenToOnce, obj, eventName, callback);
+    };
+
     jasmine.Backbone = {
       viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove', 'trigger', 'on', 'off', 'once'],
       modelMethods: ['fetch', 'save', 'destroy', 'trigger', 'listenTo', 'listenToOnce', 'on', 'off', 'once'],
@@ -263,37 +280,21 @@
         };
       },
 
-      toListenTo: function(obj, eventName) {
-        var actual = this.actual;
-        var equalsFunction = this.equals;
-
-        var call = this.findCall(actual.listenTo, function(args) {
-          return equalsFunction(args[0], obj) && args[1] === eventName;
-        });
-
-        var type = objectType(obj);
+      toListenTo: function(obj, eventName, callback) {
+        var pass = checkListenToCall.call(this, obj, eventName, callback || jasmine.any(Function));
         var json = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
-
         return {
-          pass: !!call,
-          message: pp('Expect backbone object {{not}} to listen to event {{%0}} on ' + type + ' {{%1}}', eventName, json)
+          pass: pass,
+          message: pp('Expect backbone object {{not}} to listen to event {{%0}} on ' + objectType(obj) + ' {{%1}}', eventName, json)
         };
       },
 
-      toListenToOnce: function(obj, eventName) {
-        var actual = this.actual;
-        var equalsFunction = this.equals;
-
-        var call = this.findCall(actual.listenToOnce, function(args) {
-          return equalsFunction(args[0], obj) && args[1] === eventName;
-        });
-
-        var type = objectType(obj);
+      toListenToOnce: function(obj, eventName, callback) {
+        var pass = checkListenToOnceCall.call(this, obj, eventName, callback || jasmine.any(Function));
         var json = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
-
         return {
-          pass: !!call,
-          message: pp('Expect backbone object {{not}} to listen once to event {{%0}} on ' + type + ' {{%1}}', eventName, json)
+          pass: pass,
+          message: pp('Expect backbone object {{not}} to listen once to event {{%0}} on ' + objectType(obj) + ' {{%1}}', eventName, json)
         };
       },
 
