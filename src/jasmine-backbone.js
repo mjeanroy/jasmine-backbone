@@ -116,6 +116,19 @@
       });
     };
 
+    var objectType = function(obj) {
+      if (isBackboneModel(obj)) {
+        return 'model';
+      }
+      if (isBackboneCollection(obj)) {
+        return 'collection';
+      }
+      if (isBackboneView(obj)) {
+        return 'view';
+      }
+      return 'object';
+    };
+
     var isInstanceOf = function(obj, Klass) {
       return obj instanceof Klass;
     };
@@ -258,7 +271,7 @@
           return equalsFunction(args[0], obj) && args[1] === eventName;
         });
 
-        var type = isBackboneModel(obj) ? 'model' : (isBackboneCollection(obj) ? 'collection' : 'object');
+        var type = objectType(obj);
         var json = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
 
         return {
