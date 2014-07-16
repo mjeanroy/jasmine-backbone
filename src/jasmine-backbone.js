@@ -129,6 +129,10 @@
       return 'object';
     };
 
+    var toJSON = function(o) {
+      return isBackboneModel(o) || isBackboneCollection(o) ? o.toJSON() : o;
+    };
+
     var isInstanceOf = function(obj, Klass) {
       return obj instanceof Klass;
     };
@@ -168,6 +172,31 @@
 
     var checkListenToOnceCall = function(obj, eventName, callback) {
       return checkListenCall.call(this, this.actual.listenToOnce, obj, eventName, callback);
+    };
+
+    var partialCompare = function(o1, o2, equalsFunction) {
+      var compareObject = function(obj1, obj2) {
+        return equalsFunction(obj1, jasmine.objectContaining(obj2));
+      };
+
+      var compareArray = function(arr1, arr2) {
+        if (arr1.length !== arr2.length) {
+          return false;
+        }
+
+        return _.every(arr1, function(current1, i) {
+          var current2 = _.isObject(arr2[i]) ? jasmine.objectContaining(arr2[i]) : arr2[1];
+          return equalsFunction(current1, current2);
+        });
+      };
+
+      if (_.isArray(o1) && _.isArray(o2)) {
+        return compareArray(o1, o2, equalsFunction);
+      } else if (_.isObject(o1) && _.isObject(o2)) {
+        return compareObject(o1, o2, equalsFunction);
+      }
+
+      return o1 === o2;
     };
 
     jasmine.Backbone = {
@@ -472,11 +501,21 @@
 
       toEqualAsJSON: function(obj) {
         var actual = this.actual;
-        var actualJson = actual.toJSON();
-        var expectedJson = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
+        var actualJson = toJSON(actual);
+        var expectedJson = toJSON(obj);
         return {
           pass: this.equals(actualJson, expectedJson),
           message: pp('Expect json representation of backbone ' + objectType(actual) + ' {{%0}} {{not}} to equal {{%1}}', actualJson, expectedJson)
+        };
+      },
+
+      toEqualAsPartialJSON: function(obj) {
+        var actual = this.actual;
+        var actualJson = toJSON(actual);
+        var expectedJson = toJSON(obj);
+        return {
+          pass: partialCompare(actualJson, expectedJson, this.equals),
+          message: pp('Expect json representation of backbone ' + objectType(actual) + ' {{%0}} {{not}} to partially equal {{%1}}', actualJson, expectedJson)
         };
       }
     };
