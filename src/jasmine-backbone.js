@@ -280,6 +280,23 @@
         };
       },
 
+      toListenToOnce: function(obj, eventName) {
+        var actual = this.actual;
+        var equalsFunction = this.equals;
+
+        var call = this.findCall(actual.listenToOnce, function(args) {
+          return equalsFunction(args[0], obj) && args[1] === eventName;
+        });
+
+        var type = objectType(obj);
+        var json = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
+
+        return {
+          pass: !!call,
+          message: pp('Expect backbone object {{not}} to listen once to event {{%0}} on ' + type + ' {{%1}}', eventName, json)
+        };
+      },
+
       toHaveModelId: function(id) {
         var actualId = this.actual.id;
         return {
