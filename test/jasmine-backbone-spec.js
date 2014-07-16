@@ -528,6 +528,40 @@
             expect(this.model1).toListenToOnce(model, 'foo', callback);
             expect(this.model1).not.toListenToOnce(model, 'foo', callback2);
           });
+
+          it('should compare json representations of backbone models', function() {
+            var m1 = new Backbone.Model({
+              id: 1
+            });
+
+            var m2 = new Backbone.Model({
+              id: 1
+            });
+
+            var m3 = new Backbone.Model({
+              id: 2
+            });
+
+            expect(m1).toEqualAsJSON(m2);
+            expect(m1).not.toEqualAsJSON(m3);
+          });
+
+          it('should compare json representations of backbone model and json object', function() {
+            var m1 = new Backbone.Model({
+              id: 1
+            });
+
+            var m2 = {
+              id: 1
+            };
+
+            var m3 = {
+              id: 2
+            };
+
+            expect(m1).toEqualAsJSON(m2);
+            expect(m1).not.toEqualAsJSON(m3);
+          });
         });
 
         describe('with collections', function() {
@@ -677,6 +711,40 @@
 
             expect(this.collection1).toListenToOnce(model, 'foo', callback);
             expect(this.collection1).not.toListenToOnce(model, 'foo', callback2);
+          });
+
+          it('should compare json representations of backbone collections', function() {
+            var c1 = new Backbone.Collection([{
+              id: 1
+            }]);
+
+            var c2 = new Backbone.Collection([{
+              id: 1
+            }]);
+
+            var c3 = new Backbone.Collection([{
+              id: 2
+            }]);
+
+            expect(c1).toEqualAsJSON(c2);
+            expect(c1).not.toEqualAsJSON(c3);
+          });
+
+          it('should compare json representations of backbone collections and json array', function() {
+            var c1 = new Backbone.Collection([{
+              id: 1
+            }]);
+
+            var c2 = [{
+              id: 1
+            }];
+
+            var c3 = [{
+              id: 2
+            }];
+
+            expect(c1).toEqualAsJSON(c2);
+            expect(c1).not.toEqualAsJSON(c3);
           });
         });
       });

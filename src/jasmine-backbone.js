@@ -468,6 +468,16 @@
           pass: actualSize === 0,
           message: pp('Expect backbone collection {{not}} to be empty but size was {{%0}}', actualSize)
         };
+      },
+
+      toEqualAsJSON: function(obj) {
+        var actual = this.actual;
+        var actualJson = actual.toJSON();
+        var expectedJson = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
+        return {
+          pass: this.equals(actualJson, expectedJson),
+          message: pp('Expect json representation of backbone ' + objectType(actual) + ' {{%0}} {{not}} to equal {{%1}}', actualJson, expectedJson)
+        };
       }
     };
 
