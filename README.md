@@ -9,7 +9,7 @@ Jasmine-Backbone is compatible with __Jasmine 1.3__ and __Jasmine 2.0__.
   - Mock standards functions of backbone objects.
   - Mock are configured with `callThrough`.
 
-``̀
+``̀javascript
 beforeEach(function() {
   jasmine.Backbone.useMock();
 });
