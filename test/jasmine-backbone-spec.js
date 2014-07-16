@@ -211,7 +211,7 @@
             expect(this.view1).toHaveTriggered('foo');
           });
 
-          it('should check if collection triggered specified event with arguments', function() {
+          it('should check if view triggered specified event with arguments', function() {
             var arg1 = {
               id: 1
             };
@@ -225,6 +225,19 @@
             expect(this.view1).toHaveTriggeredWith('foo', arg1, arg2);
             expect(this.view1).toHaveTriggeredWith('foo', jasmine.objectContaining(arg1), arg2);
             expect(this.view1).not.toHaveTriggeredWith('foo', arg1, 'foobar');
+          });
+
+          it('should check if view listen to specified event', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            expect(this.view1).not.toListenTo(model, 'foo');
+
+            this.view1.listenTo(model, 'foo', this.view1.render);
+
+            expect(this.view1).toListenTo(model, 'foo');
+            expect(this.view1).not.toListenTo(model, 'bar');
           });
         });
 
@@ -397,7 +410,7 @@
             expect(this.model1).toHaveTriggered('foo');
           });
 
-          it('should check if collection triggered specified event with arguments', function() {
+          it('should check if model triggered specified event with arguments', function() {
             var arg1 = {
               id: 1
             };
@@ -411,6 +424,19 @@
             expect(this.model1).toHaveTriggeredWith('foo', arg1, arg2);
             expect(this.model1).toHaveTriggeredWith('foo', jasmine.objectContaining(arg1), arg2);
             expect(this.model1).not.toHaveTriggeredWith('foo', arg1, 'foobar');
+          });
+
+          it('should check if model listen to specified event', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            expect(this.model1).not.toListenTo(model, 'foo');
+
+            this.model1.listenTo(model, 'foo', this.model1.render);
+
+            expect(this.model1).toListenTo(model, 'foo');
+            expect(this.model1).not.toListenTo(model, 'bar');
           });
         });
 
@@ -503,6 +529,19 @@
             expect(this.collection1).toHaveTriggeredWith('foo', arg1, arg2);
             expect(this.collection1).toHaveTriggeredWith('foo', jasmine.objectContaining(arg1), arg2);
             expect(this.collection1).not.toHaveTriggeredWith('foo', arg1, 'foobar');
+          });
+
+          it('should check if collection listen to specified event', function() {
+            var model = new Backbone.Model({
+              id: 1
+            });
+
+            expect(this.collection1).not.toListenTo(model, 'foo');
+
+            this.collection1.listenTo(model, 'foo', this.collection1.render);
+
+            expect(this.collection1).toListenTo(model, 'foo');
+            expect(this.collection1).not.toListenTo(model, 'bar');
           });
         });
       });

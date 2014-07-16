@@ -141,9 +141,9 @@
     };
 
     jasmine.Backbone = {
-      viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove', 'trigger', 'on', 'off'],
-      modelMethods: ['fetch', 'save', 'destroy', 'trigger'],
-      collectionMethods: ['fetch', 'trigger'],
+      viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove', 'trigger', 'on', 'off', 'once'],
+      modelMethods: ['fetch', 'save', 'destroy', 'trigger', 'listenTo', 'listenToOnce', 'on', 'off', 'once'],
+      collectionMethods: ['fetch', 'trigger', 'listenTo', 'listenToOnce', 'on', 'off', 'once'],
 
       useMock: function() {
         spyEach(Backbone.View.prototype, jasmine.Backbone.viewMethods);
@@ -247,6 +247,23 @@
         return {
           pass: !!call,
           message: pp('Expect backbone object {{not}} to have triggered event {{%0}} with {{%1}}', eventName, triggerArgs)
+        };
+      },
+
+      toListenTo: function(obj, eventName) {
+        var actual = this.actual;
+        var equalsFunction = this.equals;
+
+        var call = this.findCall(actual.listenTo, function(args) {
+          return equalsFunction(args[0], obj) && args[1] === eventName;
+        });
+
+        var type = isBackboneModel(obj) ? 'model' : (isBackboneCollection(obj) ? 'collection' : 'object');
+        var json = isBackboneModel(obj) || isBackboneCollection(obj) ? obj.toJSON() : obj;
+
+        return {
+          pass: !!call,
+          message: pp('Expect backbone object {{not}} to listen to event {{%0}} on ' + type + ' {{%1}}', eventName, json)
         };
       },
 
