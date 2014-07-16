@@ -141,7 +141,7 @@
     };
 
     jasmine.Backbone = {
-      viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove'],
+      viewMethods: ['initialize', 'render', 'listenToOnce', 'listenTo', 'remove', 'trigger', 'on', 'off'],
       modelMethods: ['fetch', 'save', 'destroy', 'trigger'],
       collectionMethods: ['fetch', 'trigger'],
 
@@ -207,6 +207,18 @@
         return {
           pass: this.actual.isNew(),
           message: pp('Expect {{%0}} {{not}} to be a new backbone model', this.actual.toJSON())
+        };
+      },
+
+      toHaveTriggered: function(eventName) {
+        var obj = this.actual;
+        var call = this.findCall(obj.trigger, function(args) {
+          return args[0] === eventName;
+        });
+
+        return {
+          pass: !!call,
+          message: pp('Expect backbone object {{not}} to have triggered event {{%0}}', eventName)
         };
       },
 
@@ -406,6 +418,16 @@
             argsFor: function(spy, call) {
               return spy.argsForCall[call];
             },
+            findCall: function(spy, iterator) {
+              var calls = spy.calls;
+              for (var i = 0, size = calls.length; i < size; ++i) {
+                var call = calls[i];
+                if (iterator.call(null, call.args, call.object)) {
+                  return call;
+                }
+              }
+              return null;
+            },
             equals: function() {
               return equals_.apply(env, arguments);
             }
@@ -438,6 +460,16 @@
             },
             argsFor: function(spy, call) {
               return spy.calls.argsFor(call);
+            },
+            findCall: function(spy, iterator) {
+              var calls = spy.calls.all();
+              for (var i = 0, size = calls.length; i < size; ++i) {
+                var call = calls[i];
+                if (iterator.call(null, call.args, call.object)) {
+                  return call;
+                }
+              }
+              return null;
             },
             equals: function(a, b) {
               return util.equals(a, b, customEqualityTesters);

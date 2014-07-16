@@ -202,6 +202,14 @@
 
             expect(this.view1).toHaveBeenRemoved();
           });
+
+          it('should check if view triggered specified event', function() {
+            expect(this.view1).not.toHaveTriggered('foo');
+
+            this.view1.trigger('foo');
+
+            expect(this.view1).toHaveTriggered('foo');
+          });
         });
 
         describe('with models', function() {
@@ -238,7 +246,7 @@
             });
 
             this.model2 = new this.Model2({
-            	id: 1,
+              id: 1,
               bar: 'foo'
             });
           });
@@ -364,6 +372,14 @@
 
             expect(this.model1).toHaveBeenDestroyed();
           });
+
+          it('should check if model triggered specified event', function() {
+            expect(this.model1).not.toHaveTriggered('foo');
+
+            this.model1.trigger('foo');
+
+            expect(this.model1).toHaveTriggered('foo');
+          });
         });
 
         describe('with collections', function() {
@@ -431,6 +447,14 @@
             this.collection1.push(model1);
 
             expect(this.collection1).not.toBeEmptyCollection();
+          });
+
+          it('should check if collection triggered specified event', function() {
+            expect(this.collection1).not.toHaveTriggered('foo');
+
+            this.collection1.trigger('foo');
+
+            expect(this.collection1).toHaveTriggered('foo');
           });
         });
       });
