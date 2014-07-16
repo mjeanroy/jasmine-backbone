@@ -23,6 +23,7 @@
     "spyOn": true,
     "beforeEach": true,
     "Backbone": true,
-    "_": true
+    "_": true,
+    "define": true
   }
 }

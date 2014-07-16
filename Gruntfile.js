@@ -16,6 +16,9 @@ module.exports = function(grunt) {
       unit: {
         configFile: 'karma.conf.js'
       },
+      unitrjs: {
+        configFile: 'karma-rjs.conf.js'
+      },
       // Continuous integration mode: run tests once in PhantomJS browser.
       continuous: {
         configFile: 'karma.conf.js',
@@ -24,6 +27,14 @@ module.exports = function(grunt) {
           'PhantomJS'
         ]
       },
+      // Check with requirejs integration
+      rjs: {
+        configFile: 'karma-rjs.conf.js',
+        singleRun: true,
+        browsers: [
+          'PhantomJS'
+        ]
+      }
     },
 
     jshint: {
@@ -55,10 +66,15 @@ module.exports = function(grunt) {
     'karma'
   ]);
 
+  grunt.registerTask('testrjs', [
+    'karma:unitrjs'
+  ]);
+
   // Default task(s).
   grunt.registerTask('build', [
     'jshint',
-    'karma:continuous'
+    'karma:continuous',
+    'karma:rjs'
   ]);
 
   grunt.registerTask('release', function(level) {
